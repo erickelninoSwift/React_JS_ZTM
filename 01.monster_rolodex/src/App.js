@@ -1,5 +1,5 @@
 import "./App.css";
-import { Component, useEffect } from "react";
+import { Component, useEffect, useState } from "react";
 
 const usersURL = "https://jsonplaceholder.typicode.com/users";
 class App extends Component {
@@ -8,31 +8,61 @@ class App extends Component {
 
     this.state = {
       monsters: [],
+      searchResults: [],
     };
   }
 
-  render() {
-    const allusers = async () => {
-      const data = await fetch(usersURL);
-      const response = await data.json();
+  componentDidMount() {
+    // const allusers = async () => {
+    //   const data = await fetch(usersURL);
+    //   const response = await data.json();
 
+    //   this.setState({
+    //     monsters: response,
+    //   });
+
+    fetch(usersURL)
+      .then((data) => {
+        return data.json();
+      })
+      .then((dataEntry) => {
+        console.log(dataEntry);
+        this.setState({
+          monsters: dataEntry,
+        });
+      });
+  }
+
+  render() {
+    // const [monster, setMonster] = useState("");
+
+    const handleFilter = (data) => {
       this.setState({
-        monsters: response,
+        searchResults:
+          data.length > 0 &&
+          this.state.monsters.filter((monster) => {
+            return monster.name.toLowerCase().includes(data.toLowerCase());
+          }),
       });
     };
 
-    allusers();
-
     return (
       <div className="App">
-        {this.state.monsters.length > 0 ? (
-          this.state.monsters.map((data) => {
-            const { id, name } = data;
-            return <h1 key={id}>{name}</h1>;
-          })
-        ) : (
-          <h1>Your monsters Array is Empty</h1>
-        )}
+        <input
+          type="text"
+          className="search-box"
+          placeholder="search monster"
+          onChange={(e) => handleFilter(e.target.value)}
+        />
+        {this.state.searchResults.length > 0
+          ? this.state.searchResults.map((data) => {
+              const { id, name } = data;
+              return <h1 key={id}>{name}</h1>;
+            })
+          : this.state.monsters.map((data) => {
+              const { id, name } = data;
+              return <h1 key={id}>{name}</h1>;
+            })}
       </div>
     );
   }
