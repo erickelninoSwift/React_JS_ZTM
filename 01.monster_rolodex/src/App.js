@@ -28,7 +28,15 @@ class App extends Component {
       .then((dataEntry) => {
         console.log(dataEntry);
         this.setState({
-          monsters: dataEntry,
+          monsters: dataEntry.sort(function (a, b) {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          }),
         });
       });
   }
