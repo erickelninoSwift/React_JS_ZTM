@@ -52,15 +52,15 @@ class App extends Component {
   };
 
   render() {
-    // const [monster, setMonster] = useState("");
     const { monsters, searchResults } = this.state;
+    const { handleFilter } = this;
     return (
       <div className="App">
         <input
           type="text"
           className="search-box"
           placeholder="search monster"
-          onChange={(e) => this.handleFilter(e.target.value)}
+          onChange={(e) => handleFilter(e.target.value)}
         />
         {searchResults.length > 0
           ? searchResults.map((data) => {
