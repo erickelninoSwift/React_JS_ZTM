@@ -41,33 +41,33 @@ class App extends Component {
       });
   }
 
+  handleFilter = (data) => {
+    this.setState({
+      searchResults:
+        data.length > 0 &&
+        this.state.monsters.filter((monster) => {
+          return monster.name.toLowerCase().includes(data.toLowerCase());
+        }),
+    });
+  };
+
   render() {
     // const [monster, setMonster] = useState("");
-
-    const handleFilter = (data) => {
-      this.setState({
-        searchResults:
-          data.length > 0 &&
-          this.state.monsters.filter((monster) => {
-            return monster.name.toLowerCase().includes(data.toLowerCase());
-          }),
-      });
-    };
-
+    const { monsters, searchResults } = this.state;
     return (
       <div className="App">
         <input
           type="text"
           className="search-box"
           placeholder="search monster"
-          onChange={(e) => handleFilter(e.target.value)}
+          onChange={(e) => this.handleFilter(e.target.value)}
         />
-        {this.state.searchResults.length > 0
-          ? this.state.searchResults.map((data) => {
+        {searchResults.length > 0
+          ? searchResults.map((data) => {
               const { id, name } = data;
               return <h1 key={id}>{name}</h1>;
             })
-          : this.state.monsters.map((data) => {
+          : monsters.map((data) => {
               const { id, name } = data;
               return <h1 key={id}>{name}</h1>;
             })}
