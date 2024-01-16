@@ -1,6 +1,7 @@
 import "./App.css";
 import { Component, useEffect, useState } from "react";
-
+import CardList from "./components/card-list/card-list.component";
+import SearchBox from "./components/search-box/search-box.component";
 const usersURL = "https://jsonplaceholder.typicode.com/users";
 class App extends Component {
   constructor() {
@@ -13,14 +14,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // const allusers = async () => {
-    //   const data = await fetch(usersURL);
-    //   const response = await data.json();
-
-    //   this.setState({
-    //     monsters: response,
-    //   });
-
     fetch(usersURL)
       .then((data) => {
         return data.json();
@@ -54,23 +47,11 @@ class App extends Component {
   render() {
     const { monsters, searchResults } = this.state;
     const { handleFilter } = this;
+
     return (
       <div className="App">
-        <input
-          type="text"
-          className="search-box"
-          placeholder="search monster"
-          onChange={(e) => handleFilter(e.target.value)}
-        />
-        {searchResults.length > 0
-          ? searchResults.map((data) => {
-              const { id, name } = data;
-              return <h1 key={id}>{name}</h1>;
-            })
-          : monsters.map((data) => {
-              const { id, name } = data;
-              return <h1 key={id}>{name}</h1>;
-            })}
+        <SearchBox handleFilter={handleFilter} nameClass={`search-box`} />
+        <CardList monsters={monsters} searchs={searchResults} />
       </div>
     );
   }
