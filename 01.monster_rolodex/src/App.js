@@ -5,11 +5,43 @@ import SearchBox from "./components/search-box/search-box.component";
 const usersURL = "https://jsonplaceholder.typicode.com/users";
 
 const App = () => {
+  const [searchResults, setSearch] = useState([]);
+  const [monsters, setMonsters] = useState([]);
+  const handleFilter = (item) => {
+    setSearch(() => {
+      return (
+        item.length > 0 &&
+        monsters.filter((monster) => {
+          return monster.name.toLowerCase().includes(item.toLowerCase());
+        })
+      );
+    });
+  };
+
+  useEffect(() => {
+    fetch(usersURL)
+      .then((data) => {
+        return data.json();
+      })
+      .then((dataEntry) => {
+        setMonsters(
+          dataEntry.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1;
+            }
+            if (a.name > b.name) {
+              return 1;
+            }
+            return 0;
+          })
+        );
+      });
+  }, []);
   return (
     <div className="App">
       <h1 className="app-title">Monster Rolodex</h1>
-      {/* <SearchBox handleFilter={handleFilter} nameClass={`search-box`} />
-      <CardList monsters={monsters} searchs={searchResults} /> */}
+      <SearchBox handleFilter={handleFilter} nameClass={`search-box`} />
+      <CardList monsters={monsters} searchs={searchResults} />
     </div>
   );
 };
