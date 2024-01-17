@@ -6,7 +6,7 @@ class SearchBox extends Component {
     return (
       <input
         type="text"
-        className={nameClass}
+        className={`search-box ${nameClass}`}
         placeholder="search monster"
         onChange={(e) => handleFilter(e.target.value)}
       />
