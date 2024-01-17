@@ -1,5 +1,5 @@
 import "./App.css";
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardList from "./components/card-list/card-list.component";
 import SearchBox from "./components/search-box/search-box.component";
 const usersURL = "https://jsonplaceholder.typicode.com/users";
@@ -41,7 +41,9 @@ const App = () => {
     <div className="App">
       <h1 className="app-title">Monster Rolodex</h1>
       <SearchBox handleFilter={handleFilter} nameClass={`search-box`} />
-      <CardList monsters={monsters} searchs={searchResults} />
+      {monsters.length > 0 && (
+        <CardList monsters={monsters} searchs={searchResults} />
+      )}
     </div>
   );
 };
