@@ -19,23 +19,30 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetch(usersURL)
-      .then((data) => {
-        return data.json();
-      })
-      .then((dataEntry) => {
-        setMonsters(
-          dataEntry.sort((a, b) => {
-            if (a.name < b.name) {
-              return -1;
-            }
-            if (a.name > b.name) {
-              return 1;
-            }
-            return 0;
-          })
-        );
-      });
+    // fetch(usersURL)
+    //   .then((data) => {
+    //     return data.json();
+    //   })
+    //   .then((dataEntry) => {
+    //     setMonsters(
+    //       dataEntry.sort((a, b) => {
+    //         if (a.name < b.name) {
+    //           return -1;
+    //         }
+    //         if (a.name > b.name) {
+    //           return 1;
+    //         }
+    //         return 0;
+    //       })
+    //     );
+    //   });
+
+    const fetchAllMonsters = async () => {
+      const response = await fetch(usersURL);
+      const data = await response.json();
+      setMonsters(data);
+    };
+    fetchAllMonsters();
   }, []);
   return (
     <div className="App">
