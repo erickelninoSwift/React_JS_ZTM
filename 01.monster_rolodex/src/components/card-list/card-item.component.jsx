@@ -2,7 +2,7 @@ import "./card-list.styles.css";
 import "./card.styles.css";
 export const CardItems = ({ data }) => {
   const { id, name, email } = data;
-  console.log(name);
+
   return (
     <div className="card-container">
       <img

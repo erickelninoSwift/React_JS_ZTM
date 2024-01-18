@@ -5,38 +5,11 @@ import SearchBox from "./components/search-box/search-box.component";
 const usersURL = "https://jsonplaceholder.typicode.com/users";
 
 const App = () => {
-  const [searchResults, setSearch] = useState([]);
+  const [searchString, setSearchString] = useState("");
   const [monsters, setMonsters] = useState([]);
-  const handleFilter = (item) => {
-    setSearch(() => {
-      return (
-        item.length > 0 &&
-        monsters.filter((monster) => {
-          return monster.name.toLowerCase().includes(item.toLowerCase());
-        })
-      );
-    });
-  };
+  const [filteredMonster, setFilteredMonsters] = useState([]);
 
   useEffect(() => {
-    // fetch(usersURL)
-    //   .then((data) => {
-    //     return data.json();
-    //   })
-    //   .then((dataEntry) => {
-    //     setMonsters(
-    //       dataEntry.sort((a, b) => {
-    //         if (a.name < b.name) {
-    //           return -1;
-    //         }
-    //         if (a.name > b.name) {
-    //           return 1;
-    //         }
-    //         return 0;
-    //       })
-    //     );
-    //   });
-
     const fetchAllMonsters = async () => {
       const response = await fetch(usersURL);
       const data = await response.json();
@@ -44,13 +17,19 @@ const App = () => {
     };
     fetchAllMonsters();
   }, []);
+
+  useEffect(() => {
+    const currentFieltered = monsters.filter((monsters) => {
+      return monsters.name.toLowerCase().includes(searchString.toLowerCase());
+    });
+    setFilteredMonsters(() => currentFieltered);
+  }, [monsters, searchString]);
+
   return (
     <div className="App">
       <h1 className="app-title">Monster Rolodex</h1>
-      <SearchBox handleFilter={handleFilter} nameClass={`search-box`} />
-      {monsters.length > 0 && (
-        <CardList monsters={monsters} searchs={searchResults} />
-      )}
+      <SearchBox SearchString={setSearchString} nameClass={`search-box`} />
+      {monsters.length > 0 && <CardList monsters={filteredMonster} />}
     </div>
   );
 };
