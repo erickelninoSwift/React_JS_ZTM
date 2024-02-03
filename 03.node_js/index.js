@@ -1,4 +1,5 @@
 import express from "express";
+import bodyParser from "body-parser";
 // import http from "http";
 // const PORT = 3002;
 // const server = http.createServer((request, response) => {
@@ -16,7 +17,19 @@ import express from "express";
 // server.listen(PORT);
 
 const app = express();
+app.use(
+  bodyParser.urlencoded({
+    extended: false,
+  })
+);
+app.use((request, response, next) => {
+  console.log("<h1>Hello jackpot</h1>");
+  next();
+});
 
+app.get("/profile", (request, response) => {
+  response.send("Jackpot");
+});
 app.get("/", (request, response) => {
   const { headers, method, url } = request;
 
@@ -25,6 +38,15 @@ app.get("/", (request, response) => {
     hobby: "Play video games",
   };
   response.setHeader("content-type", "application/json");
+  response.send(user);
+});
+
+app.post("/user", (request, response) => {
+  console.log(request.body);
+  const user = {
+    name: "Erick",
+    hobby: "Play video games",
+  };
   response.send(user);
 });
 
