@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import fs from "fs";
 // import http from "http";
 // const PORT = 3002;
 // const server = http.createServer((request, response) => {
@@ -15,7 +16,14 @@ import bodyParser from "body-parser";
 // });
 
 // server.listen(PORT);
+fs.readFile("./erick.txt", (error, data) => {
+  if (error) {
+    console.log("there was an error while reading the file");
+    return;
+  }
 
+  console.log(data.toString("utf8"));
+});
 const app = express();
 app.use(
   bodyParser.urlencoded({
