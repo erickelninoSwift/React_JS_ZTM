@@ -2,6 +2,7 @@
   "name": "santa_exercise",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "nodemon script.js"

@@ -1,3 +1,13 @@
 // 1- What floor does santa endup on
+import fs from "fs";
 
-console.log(":Heullo how are you ?");
+function readFiles() {
+  fs.readFile("./puzzle.txt", (error, data) => {
+    if (error) {
+      console.log(`Error was found ${error.message}`);
+    }
+    console.log(data.toString());
+  });
+}
+
+readFiles();
