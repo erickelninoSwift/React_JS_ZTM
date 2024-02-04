@@ -24,6 +24,17 @@ fs.readFile("./erick.txt", (error, data) => {
 
   console.log(data.toString("utf8"));
 });
+
+fs.appendFile("./erick.txt", " This is so cool", (error) => {
+  if (error) {
+    console.log("There was an error");
+  }
+});
+fs.writeFile("jackpot", "how are you doing today my friend ", (erro) => {
+  if (erro) {
+    console.log(erro.message);
+  }
+});
 const app = express();
 app.use(
   bodyParser.urlencoded({
