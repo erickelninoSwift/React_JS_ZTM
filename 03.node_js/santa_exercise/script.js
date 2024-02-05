@@ -3,6 +3,7 @@ import fs from "fs";
 
 function Question1() {
   fs.readFile("./puzzle.txt", (error, data) => {
+    console.time("santa-time");
     if (error) {
       console.log(`Error was found ${error.message}`);
     }
@@ -15,31 +16,35 @@ function Question1() {
         return (acc -= 1);
       }
     }, 0);
-
+    console.timeEnd("santa-time");
     console.log(`Santa will stop at floor : ${answer}`);
   });
 }
 
 function Question2() {
   fs.readFile("./puzzle.txt", (error, data) => {
+    console.time("santa-time");
     if (error) {
       console.log(`Error was found ${error.message}`);
     }
     const directions = data.toString();
     const directionArrays = directions.split("");
     let accumulator = 0;
+    let counter = 0;
     const answer = directionArrays.some((currentValue) => {
       if (currentValue === "(") {
-        return (accumulator += 1);
+        accumulator += 1;
       } else if (currentValue === ")") {
-        return (accumulator -= 1);
+        accumulator -= 1;
       }
+      counter++;
       return accumulator < 0;
     });
-    console.log("Question 2 :", answer);
+    console.timeEnd("santa-time");
+    console.log("Question 2 :", answer, counter);
   });
 }
 
-// Question1();
+Question1();
 console.log("==============================");
 Question2();
