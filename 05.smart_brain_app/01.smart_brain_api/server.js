@@ -27,7 +27,7 @@ const database = {
 };
 
 app.get("/", (request, response) => {
-  response.send("Working well");
+  response.send(database.users);
 });
 app.post("/signin", (request, response) => {
   if (
@@ -52,7 +52,7 @@ app.post("/register", (request, response) => {
     joined: new Date(),
   });
 
-  response.send("registration successful");
+  response.send(database.users[database.users.length - 1]);
 });
 
 app.listen(PORT, () => {
