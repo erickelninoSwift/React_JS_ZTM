@@ -55,6 +55,19 @@ app.post("/register", (request, response) => {
   response.send(database.users[database.users.length - 1]);
 });
 
+app.get("/profile/:id", (request, response) => {
+  const { id } = request.params;
+
+  const userSelected = database.users.filter((user) => {
+    return user.id === id;
+  });
+  if (userSelected.length > 0) {
+    return response.json(userSelected);
+  } else {
+    return response.json("User not found");
+  }
+});
+
 app.listen(PORT, () => {
   console.log("Server is Running on PORT ", PORT);
 });
