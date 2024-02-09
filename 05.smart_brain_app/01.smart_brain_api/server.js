@@ -1,5 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
+import bcrypt from "bcrypt";
+const saltRounds = 10;
+const myPlaintextPassword = "s0//P4$$w0rD";
+const someOtherPlaintextPassword = "not_bacon";
 const app = express();
 
 const PORT = 3001;
@@ -24,8 +28,26 @@ const database = {
       joined: new Date(),
     },
   ],
+  login: [
+    {
+      id: "9877",
+      email: "erick@gmail",
+      password: "",
+    },
+  ],
 };
 
+bcrypt.hash("bacon", null, null, function (err, hash) {
+  // Store hash in your password DB.
+});
+
+// Load hash from your password DB.
+bcrypt.compare("bacon", hash, function (err, res) {
+  // res == true
+});
+bcrypt.compare("veggies", hash, function (err, res) {
+  // res = false
+});
 app.get("/", (request, response) => {
   response.send(database.users);
 });
