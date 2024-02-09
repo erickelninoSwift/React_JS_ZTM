@@ -61,10 +61,24 @@ app.get("/profile/:id", (request, response) => {
   const userSelected = database.users.filter((user) => {
     return user.id === id;
   });
+
   if (userSelected.length > 0) {
-    return response.json(userSelected);
   } else {
     return response.json("User not found");
+  }
+});
+
+app.post("/image", (request, response) => {
+  const { id } = request.body;
+  const currentUser = database.users.filter((user) => {
+    return user.id === id;
+  });
+
+  if (currentUser[0]) {
+    currentUser[0].entries += 1;
+    response.json(currentUser[0].entries);
+  } else {
+    response.json("not found");
   }
 });
 
