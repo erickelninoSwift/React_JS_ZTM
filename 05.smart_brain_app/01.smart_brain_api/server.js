@@ -1,9 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
+
 import bcrypt from "bcrypt";
-const saltRounds = 10;
+const saltRounds = 2;
 const myPlaintextPassword = "s0//P4$$w0rD";
-const someOtherPlaintextPassword = "not_bacon";
+// const someOtherPlaintextPassword = "not_bacon";
+
 const app = express();
 
 const PORT = 3001;
@@ -37,17 +39,16 @@ const database = {
   ],
 };
 
-bcrypt.hash("bacon", null, null, function (err, hash) {
-  // Store hash in your password DB.
-});
+const passwordHashing = (saltRounds, myPlaintextPassword) => {
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hash = bcrypt.hashSync(myPlaintextPassword, salt);
+  return hash;
+};
 
-// Load hash from your password DB.
-bcrypt.compare("bacon", hash, function (err, res) {
-  // res == true
-});
-bcrypt.compare("veggies", hash, function (err, res) {
-  // res = false
-});
+const checkPassword = (passwordUser, passowrdHansed) => {
+  return bcrypt.compareSync(passwordUser, passowrdHansed);
+};
+
 app.get("/", (request, response) => {
   response.send(database.users);
 });
@@ -64,6 +65,8 @@ app.post("/signin", (request, response) => {
 });
 app.post("/register", (request, response) => {
   const { email, password, name } = request.body;
+  const passowrdHansed = passwordHashing(1, password);
+  const isRightPassword = checkPassword(password);
 
   database.users.push({
     id: "1255",
